@@ -52,12 +52,13 @@ class Game:
 
     def play_game(self):
         print("Game start!")
-        for round in range(3):
+        for round in range(15):
             print(f"Round {round}:")
             self.play_round()
         print("Game over!")
         print(f"Player 1 score: {self.p1score}")
         print(f"Player 2 score: {self.p2score}")
+
 
 class RandomPlayer(Player):
     def move(self):
