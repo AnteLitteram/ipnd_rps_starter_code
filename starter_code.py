@@ -53,10 +53,10 @@ class Game:
             self.play_round()
         print("Game over!")
 
+
 class RandomPlayer(Player):
     def move(self):
         return random.choice(moves)
-
 
 
 if __name__ == '__main__':
