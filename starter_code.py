@@ -11,7 +11,7 @@ in this game"""
 
 class Player:
     def move(self):
-        return 'rock'
+        return 'scissors'
 
     def learn(self, my_move, their_move):
         pass
@@ -32,28 +32,30 @@ class Game:
 
     def play_round(self):
         move1 = self.p1.move()
-        move2 = self.p2.move()
-        print(f"Player 1: {move1}  Player 2: {move2}")
-        self.p1.learn(move1, move2)
-        self.p2.learn(move2, move1)
+        if move1[0] == 'q':
+            self.p1score = 5
+            self.p2score = 5
+        if move1 in moves:
+            move2 = self.p2.move()
+            print(f"Player 1: {move1}  Player 2: {move2}")
+            self.p1.learn(move1, move2)
+            self.p2.learn(move2, move1)
 #
-#
-        if move1 != move2:
-            if beats(move1, move2):
-                print("Player 1 is the winner")
-                self.p1score += 1
+            if move1 != move2:
+                if beats(move1, move2):
+                    self.p1score += 1
+                    print(f"Player 1 wins and has {self.p1score} total.\n")
+                else:
+                    self.p2score += 1
+                    print(f"Player 2 wins and has {self.p2score} total.\n")
             else:
-                print("Player 2 is the winner")
-                self.p2score += 1
+                print(f"You tied that round."\n")
         else:
-            print("It's a Tie")
-#
-#
+            print("Not a valid selection. use q or quit to end the game.\n")
 
     def play_game(self):
         print("Game start!")
-        for round in range(15):
-            print(f"Round {round}:")
+        while self.p1score < 5 and self.p2score < 5:
             self.play_round()
         print("Game over!")
         print(f"Player 1 score: {self.p1score}")
@@ -65,6 +67,19 @@ class RandomPlayer(Player):
         return random.choice(moves)
 
 
-if __name__ == '__main__':
-    game = Game(RandomPlayer(), RandomPlayer())
-    game.play_game()
+class HumanPlayer(Player):
+    def move(self):
+        move = input("Please enter rock paper or scissors: ")
+        return move
+
+
+class ReflectPlayer(Player):
+    plays what you played last round
+
+
+class CyclePlayer(Player):
+    cycle through rps
+
+    if __name__ == '__main__':
+        game = Game(HumanPlayer(), RandomPlayer())
+        game.play_game()
